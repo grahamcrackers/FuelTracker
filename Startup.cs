@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GasTracker
 {
@@ -34,11 +35,21 @@ namespace GasTracker
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connection = Configuration.GetConnectionString("DefaultConnection");
 
+
+            // Add DB
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
             services.AddUnitOfWork<TrackerContext>();
 
+            // Services
             services.AddScoped<IUserService, UserService>();
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new Info { Title = "Gas Tracker API", Version = "v1" });
+            });
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -46,6 +57,9 @@ namespace GasTracker
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+
+
             }
             // else
             // {
@@ -53,8 +67,21 @@ namespace GasTracker
             //     app.UseHsts();
             // }
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            
             // app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "/swagger");
+            });
         }
     }
 }
