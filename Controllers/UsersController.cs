@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GasTracker.Models;
 using GasTracker.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Controllers
 {
@@ -13,16 +14,20 @@ namespace GasTracker.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _user;
+        private readonly TrackerContext _db;
 
-        public UsersController(IUserService user){
+        public UsersController(IUserService user, TrackerContext db){
             _user = user;
+            _db = db;
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return Ok(_user.GetUsers());
+            var all = _db.Users.Include(x => x.Vehicles).AsEnumerable();
+
+            return Ok(all);
         }
 
         // // GET api/values/5

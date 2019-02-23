@@ -10,7 +10,7 @@ namespace GasTracker.Models {
         public int VehicleId { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
-        public int Vin { get; set; }
+        public string Vin { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }
