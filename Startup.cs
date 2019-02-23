@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GasTracker.Models;
 using GasTracker.Repositories;
+using GasTracker.Repositories.DependencyInjection;
 using GasTracker.Repositories.Interfaces;
 using GasTracker.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,8 +35,8 @@ namespace GasTracker
             var connection = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddUnitOfWork<TrackerContext>();
+
             services.AddScoped<IUserService, UserService>();
         }
 

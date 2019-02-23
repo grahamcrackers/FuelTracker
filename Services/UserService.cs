@@ -7,25 +7,21 @@ namespace GasTracker.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _uow;
-        private readonly IRepository<User> _repo;
 
-        public UserService(IUnitOfWork unit, IRepository<User> repo)
+        public UserService(IUnitOfWork unit)
         {
             _uow = unit;
-            _repo = repo;
         }
 
         public void AddUser(User entity)
         {
-            _repo.Add(entity);
-            _uow.Commit();
-
+            _uow.GetRepository<User>().Add(entity);
+            _uow.SaveChanges();
         }
 
         public IEnumerable<User> GetUsers()
         {
-            var users = _repo.Get();
-            return users;
+            return _uow.GetRepository<User>().Get();
         }
     }
 }
