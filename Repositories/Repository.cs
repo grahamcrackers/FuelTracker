@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using GasTracker.Repositories.Interfaces;
 
-namespace Repositories {
+namespace GasTracker.Repositories {
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -36,7 +37,8 @@ namespace Repositories {
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Context.Entry(entity).State = EntityState.Modified;
+            _unitOfWork.Context.Set<T>().Attach(entity);
         }
     }
 }

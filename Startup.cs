@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GasTracker.Models;
+using GasTracker.Repositories;
+using GasTracker.Repositories.Interfaces;
+using GasTracker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,11 +32,11 @@ namespace GasTracker
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var connection = Configuration.GetConnectionString("DefaultConnection");
-            
-            // services.AddDbContext<TrackerDbContext>(options => options.UseSqlite(connection));
-                
-            services.AddDbContext<TrackerContext>
-                (options => options.UseSqlite(connection));
+
+            services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,13 +46,13 @@ namespace GasTracker
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            // else
+            // {
+            //     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //     app.UseHsts();
+            // }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

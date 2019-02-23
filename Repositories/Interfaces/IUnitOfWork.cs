@@ -1,9 +1,10 @@
 using System;
+using GasTracker.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repositories.Interfaces {
+namespace GasTracker.Repositories.Interfaces {
     public interface IUnitOfWork: IDisposable {
-        DbContext Context { get; }
+        TrackerContext Context { get; }
         void Commit();
     }
 }

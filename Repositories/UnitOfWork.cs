@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Repositories.Interfaces;
+using GasTracker.Repositories.Interfaces;
+using GasTracker.Models;
 
-namespace Repositories {
+namespace GasTracker.Repositories {
     public class UnitOfWork : IUnitOfWork
     {
-        public DbContext Context { get; }
+        public TrackerContext Context { get; }
 
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(TrackerContext context)
         {
             Context = context;
         }
