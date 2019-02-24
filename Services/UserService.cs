@@ -1,27 +1,28 @@
 using System.Collections.Generic;
-using GasTracker.Models;
-using GasTracker.Repositories.Interfaces;
+using System.Linq;
+using GasTracker.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUnitOfWork _uow;
+        private readonly TrackerContext _ctx;
 
-        public UserService(IUnitOfWork unit)
+        public UserService(TrackerContext context)
         {
-            _uow = unit;
+            _ctx = context;
         }
 
         public void AddUser(User entity)
         {
-            _uow.GetRepository<User>().Add(entity);
-            _uow.SaveChanges();
+            _ctx.Users.Add(entity);
+            _ctx.SaveChanges();
         }
 
         public IEnumerable<User> GetUsers()
         {
-            return _uow.GetRepository<User>().Get();
+            return _ctx.Users.Include(x => x.Vehicles).AsEnumerable();
         }
     }
 }

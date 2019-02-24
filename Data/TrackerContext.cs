@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace GasTracker.Models
+namespace GasTracker.Data.Models
 {
     public class TrackerContext : DbContext
     {

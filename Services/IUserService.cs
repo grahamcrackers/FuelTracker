@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using GasTracker.Models;
-using GasTracker.Repositories.Interfaces;
+using GasTracker.Data.Models;
 
 namespace GasTracker.Services
 {

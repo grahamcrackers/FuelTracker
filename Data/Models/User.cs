@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GasTracker.Models {
+namespace GasTracker.Data.Models {
     public class User {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,6 +15,7 @@ namespace GasTracker.Models {
         [Required]
         public string Username { get; set; }
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }
