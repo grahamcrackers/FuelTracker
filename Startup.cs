@@ -1,5 +1,6 @@
 ﻿using GasTracker.Data.Models;
 using GasTracker.Services;
+using GasTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,8 @@ namespace GasTracker
             // Add DB
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<ITripService, TripService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(swagger =>
@@ -35,7 +38,6 @@ namespace GasTracker
                 swagger.SwaggerDoc("v1", new Info { Title = "Gas Tracker API", Version = "v1" });
             });
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -61,12 +63,7 @@ namespace GasTracker
             });
 
             app.UseHttpsRedirection();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "swagger");
-            });
+            app.UseMvc();
         }
     }
 }

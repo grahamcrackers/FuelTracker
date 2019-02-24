@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GasTracker.Data.Models;
+using GasTracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
@@ -34,7 +35,7 @@ namespace GasTracker.Services
 
         public void DeleteUser(User entity)
         {
-            var existing = _ctx.Users.Find(entity);
+            var existing = _ctx.Users.Where(x => x.UserId == entity.UserId).FirstOrDefault();
             if (existing != null) _ctx.Users.Remove(existing);
         }
 
