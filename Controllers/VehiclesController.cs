@@ -8,7 +8,7 @@ namespace GasTracker.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class VehiclesController : ControllerBase
     {
         // GET api/values
         [HttpGet]

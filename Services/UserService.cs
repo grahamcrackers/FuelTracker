@@ -20,9 +20,28 @@ namespace GasTracker.Services
             _ctx.SaveChanges();
         }
 
+        public User GetUser(int id)
+        {
+            return _ctx.Users.Include(x => x.Vehicles)
+                            .Where(x => x.UserId == id)
+                            .FirstOrDefault();
+        }
+
         public IEnumerable<User> GetUsers()
         {
             return _ctx.Users.Include(x => x.Vehicles).AsEnumerable();
+        }
+
+        public void DeleteUser(User entity)
+        {
+            var existing = _ctx.Users.Find(entity);
+            if (existing != null) _ctx.Users.Remove(existing);
+        }
+
+        public void UpdateUser(User entity)
+        {
+            _ctx.Users.Update(entity);
+            _ctx.SaveChanges();
         }
     }
 }

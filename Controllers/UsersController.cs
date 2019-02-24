@@ -9,25 +9,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _user;
-        private readonly TrackerContext _db;
 
-        public UsersController(IUserService user, TrackerContext db){
+        public UsersController(IUserService user){
             _user = user;
-            _db = db;
         }
 
-        // GET api/values
+        // GET api/users/all
         [HttpGet]
+        [Route("all")]
         public ActionResult<IEnumerable<User>> Get()
         {
-            var all = _db.Users.Include(x => x.Vehicles).AsEnumerable();
-
-            return Ok(all);
+            return Ok(_user.GetUsers());
         }
 
         // // GET api/values/5
@@ -37,10 +34,11 @@ namespace GasTracker.Controllers
         //     return "value";
         // }
 
-        // POST api/values
+        // POST api/user
         [HttpPost]
         public void Post([FromBody] User user)
         {
+            _user.AddUser(user);
         }
 
         // // PUT api/values/5
