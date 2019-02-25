@@ -1,47 +1,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using GasTracker.Data.Models;
-using GasTracker.Services;
+using GasTracker.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
 {
-    public class TripService
+    public class TripService : IService<Trip>
     {
-        private readonly TrackerContext _ctx;
+        private readonly IUnitOfWork _uow;
 
-        public TripService(TrackerContext context)
+        public TripService(IUnitOfWork uow)
         {
-            _ctx = context;
+            _uow = uow;
         }
 
         public void Add(Trip entity)
         {
-            _ctx.Trips.Add(entity);
-            _ctx.SaveChanges();
+            _uow.GetRepository<Trip>().Add(entity);
+            _uow.SaveChanges();
         }
 
         public Trip Get(int id)
         {
-            return _ctx.Trips.Where(x => x.TripId == id)
-                             .FirstOrDefault();
+            return _uow.GetRepository<Trip>().Get(x => x.TripId == id).FirstOrDefault();
         }
 
-        public IEnumerable<Trip> GetAll()
+        public IEnumerable<Trip> Get()
         {
-            return _ctx.Trips.AsEnumerable();
+            return _uow.GetRepository<Trip>().Get();
         }
 
-        public void Delete(Trip entity)
+        public void Delete(int id)
         {
-            var existing = _ctx.Trips.Where(x => x.TripId == entity.TripId).FirstOrDefault();
-            if (existing != null) _ctx.Trips.Remove(existing);
+            var existing = _uow.GetRepository<Trip>().Get(x => x.TripId == id);
+            if (existing != null) _uow.GetRepository<Trip>().Delete(existing);
         }
 
         public void Update(Trip entity)
         {
-            _ctx.Trips.Update(entity);
-            _ctx.SaveChanges();
+            _uow.GetRepository<Trip>().Update(entity);
+            _uow.SaveChanges();
         }
     }
 }

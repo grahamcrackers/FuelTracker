@@ -33,6 +33,8 @@ namespace GasTracker
 
             // Add Services
             services.AddScoped(typeof(IService<User>), typeof(UserService));
+            services.AddScoped(typeof(IService<Vehicle>), typeof(VehicleService));
+            // services.AddScoped(typeof(IService<Trip>), typeof(TripService));
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>

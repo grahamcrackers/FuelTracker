@@ -22,5 +22,6 @@ cd ./Data
 sqlite3 gastracker.db < seed.sql
 ```
 
+## Inspiration
 ### Repository Pattern
 * https://garywoodfine.com/generic-repository-pattern-net-core/
