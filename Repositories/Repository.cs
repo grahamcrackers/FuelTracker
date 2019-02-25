@@ -66,13 +66,13 @@ namespace GasTracker.Repositories
         }
 
 
-        [Obsolete("Method is replaced by GetList")]
+        // [Obsolete("Method is replaced by GetList")]
         public IEnumerable<T> Get()
         {
             return _dbSet.AsEnumerable();
         }
 
-        [Obsolete("Method is replaced by GetList")]
+        // [Obsolete("Method is replaced by GetList")]
         public IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
         {
             return _dbSet.Where(predicate).AsEnumerable();

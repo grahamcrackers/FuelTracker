@@ -9,6 +9,9 @@ namespace GasTracker.Repositories
 {
     public interface IRepository<T> : IReadRepository<T>, IDisposable where T : class
     {
+        IEnumerable<T> Get();
+        IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
+
         void Add(T entity);
         void Add(params T[] entities);
         void Add(IEnumerable<T> entities);

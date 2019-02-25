@@ -1,48 +1,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using GasTracker.Data.Models;
+using GasTracker.Repositories;
 using GasTracker.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
 {
-    public class UserService : IUserService
+    public class UserService : IService<User>
     {
-        private readonly TrackerContext _ctx;
+        private readonly IUnitOfWork _uow;
 
-        public UserService(TrackerContext context)
+        public UserService(IUnitOfWork uow)
         {
-            _ctx = context;
+            _uow = uow;
         }
 
-        public void AddUser(User entity)
+        public void Add(User entity)
         {
-            _ctx.Users.Add(entity);
-            _ctx.SaveChanges();
+            _uow.GetRepository<User>().Add(entity);
+            _uow.SaveChanges();
         }
 
-        public User GetUser(int id)
+        public User Get(int id)
         {
-            return _ctx.Users.Include(x => x.Vehicles)
-                            .Where(x => x.UserId == id)
-                            .FirstOrDefault();
+            return _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
         }
 
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<User> Get()
         {
-            return _ctx.Users.Include(x => x.Vehicles).AsEnumerable();
+            return _uow.GetRepository<User>().Get();
         }
 
-        public void DeleteUser(User entity)
+        public void Delete(User entity)
         {
-            var existing = _ctx.Users.Where(x => x.UserId == entity.UserId).FirstOrDefault();
-            if (existing != null) _ctx.Users.Remove(existing);
+            var existing = _uow.GetRepository<User>().Get(x => x.UserId == entity.UserId);
+            if (existing != null) _uow.GetRepository<User>().Delete(existing);
         }
 
-        public void UpdateUser(User entity)
+        public void Update(User entity)
         {
-            _ctx.Users.Update(entity);
-            _ctx.SaveChanges();
+            _uow.GetRepository<User>().Update(entity);
+            _uow.SaveChanges();
         }
     }
 }

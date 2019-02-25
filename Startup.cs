@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GasTracker.Data.Models;
+using GasTracker.Repositories.DependencyInjection;
 using GasTracker.Services;
 using GasTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -29,11 +30,7 @@ namespace GasTracker
 
             // Add DB
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
-
-            // Services
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IVehicleService, VehicleService>();
-            services.AddScoped<ITripService, TripService>();
+            services.AddUnitOfWork<TrackerContext>();
 
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
@@ -41,7 +38,7 @@ namespace GasTracker
                 mc.AddProfile(new MappingProfile());
             });
             services.AddSingleton<IMapper>(mappingConfig.CreateMapper());
-            
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(swagger =>
             {
@@ -56,11 +53,11 @@ namespace GasTracker
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            // else
+            // {
+            //     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //     app.UseHsts();
+            // }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -72,7 +69,7 @@ namespace GasTracker
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
