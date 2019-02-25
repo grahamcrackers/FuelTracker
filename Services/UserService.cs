@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GasTracker.Data.Models;
 using GasTracker.Repositories;
-using GasTracker.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
 {
@@ -32,9 +30,9 @@ namespace GasTracker.Services
             return _uow.GetRepository<User>().Get();
         }
 
-        public void Delete(User entity)
+        public void Delete(int id)
         {
-            var existing = _uow.GetRepository<User>().Get(x => x.UserId == entity.UserId);
+            var existing = _uow.GetRepository<User>().Get(x => x.UserId == id);
             if (existing != null) _uow.GetRepository<User>().Delete(existing);
         }
 

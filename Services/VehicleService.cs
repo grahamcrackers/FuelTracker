@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using GasTracker.Data.Models;
-using GasTracker.Services.Interfaces;
+using GasTracker.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace GasTracker.Services
 {
-    public class VehicleService : IVehicleService
+    public class VehicleService
     {
         private readonly TrackerContext _ctx;
 

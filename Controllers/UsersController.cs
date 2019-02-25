@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using GasTracker.Data.Models;
 using GasTracker.Services;
-using GasTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,9 +13,10 @@ namespace GasTracker.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _user;
+        private readonly IService<User> _user;
 
-        public UsersController(IUserService user){
+        public UsersController(IService<User> user)
+        {
             _user = user;
         }
 
@@ -24,21 +24,21 @@ namespace GasTracker.Controllers
         [HttpGet("all")]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return Ok(_user.GetUsers());
+            return Ok(_user.Get());
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            return Ok(_user.GetUser(id));
+            return Ok(_user.Get(id));
         }
 
         // POST api/users
         [HttpPost]
         public void Post([FromBody] User user)
         {
-            _user.AddUser(user);
+            _user.Add(user);
         }
 
         // PUT api/users/5
@@ -46,14 +46,14 @@ namespace GasTracker.Controllers
         public void Put(int id, [FromBody] User user)
         {
             if (user.UserId == 0) user.UserId = id; 
-            _user.UpdateUser(user);
+            _user.Update(user);
         }
 
-        // DELETE api/values/5
+        // DELETE api/users/5
         [HttpDelete("{id}")]
-        public void Delete([FromBody] User user)
+        public void Delete(int id)
         {
-            _user.DeleteUser(user);
+            _user.Delete(id);
         }
     }
 }
