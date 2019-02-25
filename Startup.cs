@@ -1,4 +1,5 @@
-﻿using GasTracker.Data.Models;
+﻿using AutoMapper;
+using GasTracker.Data.Models;
 using GasTracker.Services;
 using GasTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -28,10 +29,19 @@ namespace GasTracker
 
             // Add DB
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
+
+            // Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<ITripService, TripService>();
 
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            services.AddSingleton<IMapper>(mappingConfig.CreateMapper());
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(swagger =>
             {
