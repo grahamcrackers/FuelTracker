@@ -48,6 +48,11 @@ namespace GasTracker
             {
                 swagger.SwaggerDoc("v1", new Info { Title = "Gas Tracker API", Version = "v1" });
             });
+
+            services.AddCors();
+
+            // Add a health check page
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,8 +75,14 @@ namespace GasTracker
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(config =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Gas Tracker API");
             });
+
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+            });
+            
+            app.UseHealthChecks("/health");
 
             //app.UseHttpsRedirection();
             app.UseMvc();

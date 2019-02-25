@@ -13,8 +13,6 @@ namespace GasTracker.Data.Models {
         public string Vin { get; set; }
 
         public int UserId { get; set; }
-        public User User { get; set; }
-
         public ICollection<Trip> Trips { get; set; }
     }
 }
