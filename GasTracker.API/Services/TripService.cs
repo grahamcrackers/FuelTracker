@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using GasTracker.API.Data;
+using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
