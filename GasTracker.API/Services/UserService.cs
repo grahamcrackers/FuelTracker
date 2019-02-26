@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using GasTracker.Data.Models;
-using GasTracker.Services.Interfaces;
+using GasTracker.API.Data;
+using GasTracker.API.Data.Models;
+using GasTracker.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace GasTracker.Services
+namespace GasTracker.API.Services
 {
     public class UserService : IUserService
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using GasTracker.Data.Models;
+using GasTracker.API.Data.Models;
 
-namespace GasTracker.Services.Interfaces
+namespace GasTracker.API.Services.Interfaces
 {
     public interface IUserService
     {

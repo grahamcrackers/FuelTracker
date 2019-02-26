@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GasTracker.Data.Models;
-using GasTracker.Services.Interfaces;
+using GasTracker.API.Data.Models;
+using GasTracker.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GasTracker.Controllers
+namespace GasTracker.API.Controllers
 {
     [Route("api/trips")]
     [ApiController]

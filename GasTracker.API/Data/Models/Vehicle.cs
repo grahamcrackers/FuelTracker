@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GasTracker.Data.Models {
+namespace GasTracker.API.Data.Models {
     public class Vehicle {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

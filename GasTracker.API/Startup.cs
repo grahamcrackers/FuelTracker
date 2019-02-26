@@ -1,6 +1,7 @@
-﻿using GasTracker.Data.Models;
-using GasTracker.Services;
-using GasTracker.Services.Interfaces;
+﻿using GasTracker.API.Data;
+using GasTracker.API.Data.Models;
+using GasTracker.API.Services;
+using GasTracker.API.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace GasTracker
+namespace GasTracker.API
 {
     public class Startup
     {

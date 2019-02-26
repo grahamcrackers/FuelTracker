@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GasTracker.Data.Models {
+namespace GasTracker.API.Data.Models {
     public class Trip {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
