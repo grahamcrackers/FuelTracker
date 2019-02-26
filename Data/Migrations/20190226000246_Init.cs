@@ -59,7 +59,7 @@ namespace GasTracker.Data.Migrations
                     CostPerGallon = table.Column<decimal>(nullable: false),
                     MilesPerGallon = table.Column<decimal>(nullable: false),
                     CostPerMile = table.Column<decimal>(nullable: false),
-                    VehicleId = table.Column<int>(nullable: true)
+                    VehicleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,7 @@ namespace GasTracker.Data.Migrations
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "VehicleId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

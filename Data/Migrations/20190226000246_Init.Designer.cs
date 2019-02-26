@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GasTracker.Data.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20190224044030_Init")]
+    [Migration("20190226000246_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace GasTracker.Data.Migrations
 
                     b.Property<decimal>("TripMeter");
 
-                    b.Property<int?>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("TripId");
 
@@ -94,12 +94,13 @@ namespace GasTracker.Data.Migrations
                 {
                     b.HasOne("GasTracker.Data.Models.Vehicle")
                         .WithMany("Trips")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GasTracker.Data.Models.Vehicle", b =>
                 {
-                    b.HasOne("GasTracker.Data.Models.User", "User")
+                    b.HasOne("GasTracker.Data.Models.User")
                         .WithMany("Vehicles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
