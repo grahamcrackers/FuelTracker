@@ -13,9 +13,10 @@ namespace GasTracker.Repositories
         {
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            _dbSet.Add(entity);
+            T newEntity = _dbSet.Add(entity);
+            return newEntity;
         }
 
         public void Add(params T[] entities)

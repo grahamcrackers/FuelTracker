@@ -9,8 +9,8 @@ namespace GasTracker.Data.Models
             : base(options)
         { }
 
-        public DbSet<Trip> Trips { get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
+        // public DbSet<Trip> Trips { get; set; }
+        // public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<User> Users { get; set; }
 
     }

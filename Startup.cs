@@ -1,13 +1,16 @@
-﻿using AutoMapper;
+﻿using System.Buffers;
+using AutoMapper;
 using GasTracker.Data.Models;
 using GasTracker.Repositories.DependencyInjection;
 using GasTracker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace GasTracker
@@ -25,33 +28,34 @@ namespace GasTracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var connection = Configuration.GetConnectionString("DefaultConnection");
 
             // Add DB
+            var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
             services.AddUnitOfWork<TrackerContext>();
 
             // Add Services
             services.AddScoped(typeof(IService<User>), typeof(UserService));
             services.AddScoped(typeof(IService<Vehicle>), typeof(VehicleService));
-            // services.AddScoped(typeof(IService<Trip>), typeof(TripService));
+            services.AddScoped(typeof(IService<Trip>), typeof(TripService));
 
-            // Auto Mapper Configurations
+            // AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
             });
             services.AddSingleton<IMapper>(mappingConfig.CreateMapper());
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            // Swagger
             services.AddSwaggerGen(swagger =>
             {
                 swagger.SwaggerDoc("v1", new Info { Title = "Gas Tracker API", Version = "v1" });
             });
 
+            // CORS
             services.AddCors();
 
-            // Add a health check page
+            // Health Check
             services.AddHealthChecks();
         }
 
@@ -78,10 +82,12 @@ namespace GasTracker
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Gas Tracker API");
             });
 
-            app.UseCors(builder => {
-                builder.AllowAnyOrigin();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyHeader();
             });
-            
+
             app.UseHealthChecks("/health");
 
             //app.UseHttpsRedirection();

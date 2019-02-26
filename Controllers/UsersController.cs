@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using GasTracker.Data.DTO;
 using GasTracker.Data.Models;
 using GasTracker.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,17 +16,21 @@ namespace GasTracker.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IService<User> _user;
+        private readonly IMapper _mapper;
 
-        public UsersController(IService<User> user)
+        public UsersController(IService<User> user, IMapper mapper)
         {
             _user = user;
+            _mapper = mapper;
         }
 
         // GET api/users/all
         [HttpGet("all")]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return Ok(_user.Get());
+            var users = _user.Get();
+            // var dto = _mapper.Map<UserDTO>(users);
+            return Ok(users);
         }
 
         // GET api/users/5
