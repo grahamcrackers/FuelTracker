@@ -1,6 +1,8 @@
 # Gas Tracker API
 
-
+<a href="#travis-badge">
+    <img alt="travic-ci build" src="https://travis-ci.com/grahamcrackers/FuelTracker.svg?branch=master">
+</a>
 
 ## Overview
 
