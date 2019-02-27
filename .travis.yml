@@ -5,3 +5,5 @@ dist: xenial
 script:
  - dotnet restore
  - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+ script: ./GasTracker.Tests/tools/csmacnz.Coveralls --opencover -i ./GasTracker.Tests/coverage.opencover.xml --useRelativePaths
