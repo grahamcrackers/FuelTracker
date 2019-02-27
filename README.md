@@ -1,7 +1,6 @@
 # Gas Tracker API
 
-#### Note
-This branch I am focusing on purely a service base layer to manage the communication between the controllers and entity framework.
+
 
 ## Overview
 
@@ -23,5 +22,5 @@ sqlite3 gastracker.db < seed.sql
 ```
 
 ## Inspiration
-### Repository Pattern
 * https://garywoodfine.com/generic-repository-pattern-net-core/
+* https://fullstackmark.com/post/20/painless-integration-testing-with-aspnet-core-web-api
