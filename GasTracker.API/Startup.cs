@@ -85,7 +85,7 @@ namespace GasTracker.API
             app.UseCors(builder =>
             {
                 builder.AllowAnyOrigin()
-                        .AllowAnyHeader();
+                       .AllowAnyHeader();
             });
 
             app.UseHealthChecks("/health");
