@@ -3,6 +3,9 @@
 <a href="#travis-badge">
     <img alt="travic-ci build" src="https://travis-ci.com/grahamcrackers/FuelTracker.svg?branch=master">
 </a>
+<a href='https://coveralls.io/github/grahamcrackers/FuelTracker?branch=master'>
+    <img src='https://coveralls.io/repos/github/grahamcrackers/FuelTracker/badge.svg?branch=master' alt='Coverage Status' />
+</a>
 
 ## Overview
 
@@ -18,11 +21,13 @@ dotnet ef database update
 ```
 
 #### Seed the Database
+
 ```
 cd ./Data
 sqlite3 gastracker.db < seed.sql
 ```
 
 ## Inspiration
-* https://garywoodfine.com/generic-repository-pattern-net-core/
-* https://fullstackmark.com/post/20/painless-integration-testing-with-aspnet-core-web-api
+
+- https://garywoodfine.com/generic-repository-pattern-net-core/
+- https://fullstackmark.com/post/20/painless-integration-testing-with-aspnet-core-web-api
