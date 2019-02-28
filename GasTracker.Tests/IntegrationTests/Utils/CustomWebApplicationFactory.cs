@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 
-namespace GasTracker.Tests.Utils
+namespace IntegrationTests.Utils
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<Startup>
     {

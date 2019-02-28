@@ -1,7 +1,7 @@
 using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
 
-namespace GasTracker.Tests.Utils
+namespace IntegrationTests.Utils
 {
     public static class SeedData
     {

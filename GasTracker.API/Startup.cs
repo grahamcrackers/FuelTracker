@@ -2,7 +2,6 @@ using AutoMapper;
 using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories.DependencyInjection;
-using GasTracker.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +32,6 @@ namespace GasTracker.API
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
             services.AddUnitOfWork<TrackerContext>();
-
-            // Add Services
-            services.AddScoped(typeof(IService<User>), typeof(UserService));
-            services.AddScoped(typeof(IService<Vehicle>), typeof(VehicleService));
-            services.AddScoped(typeof(IService<Trip>), typeof(TripService));
 
             // AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>

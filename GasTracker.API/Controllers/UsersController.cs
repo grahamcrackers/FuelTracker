@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GasTracker.API.Data.Models;
-using GasTracker.API.Services;
+using GasTracker.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,20 +14,20 @@ namespace GasTracker.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IService<User> _user;
+        private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public UsersController(IService<User> user, IMapper mapper)
+        public UsersController(IUnitOfWork uow, IMapper mapper)
         {
-            _user = user;
+            _uow = uow;
             _mapper = mapper;
         }
 
-        // GET api/users/all
-        [HttpGet("all")]
+        // GET api/users
+        [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            var users = _user.Get();
+            var users = _uow.GetRepository<User>().Get();
             // var dto = _mapper.Map<UserDTO>(users);
             return Ok(users);
         }
@@ -36,29 +36,32 @@ namespace GasTracker.API.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            return Ok(_user.Get(id));
+            var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
+            return Ok(user);
         }
 
         // POST api/users
         [HttpPost]
         public void Post([FromBody] User user)
         {
-            _user.Add(user);
+            _uow.GetRepository<User>().Add(user);
+            _uow.SaveChanges();
         }
 
         // PUT api/users/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] User user)
         {
-            if (user.UserId == 0) user.UserId = id; 
-            _user.Update(user);
+            _uow.GetRepository<User>().Update(user);
+            _uow.SaveChanges();
         }
 
         // DELETE api/users/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _user.Delete(id);
+            var existing = _uow.GetRepository<User>().Get(x => x.UserId == id);
+            if (existing != null) _uow.GetRepository<User>().Delete(existing);
         }
     }
 }

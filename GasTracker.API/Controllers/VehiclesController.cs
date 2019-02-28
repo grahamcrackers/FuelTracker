@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GasTracker.API.Data.Models;
-using GasTracker.API.Services;
+using GasTracker.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GasTracker.API.Controllers
@@ -11,45 +12,53 @@ namespace GasTracker.API.Controllers
     [ApiController]
     public class VehiclesController : ControllerBase
     {
-        private readonly IService<Vehicle> _vehicle;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
 
-        public VehiclesController(IService<Vehicle>  vehicle){
-            _vehicle = vehicle;
+        public VehiclesController(IUnitOfWork uow, IMapper mapper)
+        {
+            _uow = uow;
+            _mapper = mapper;
         }
+        
         // GET api/trips/all
-        [HttpGet("all")]
+        [HttpGet]
         public ActionResult<IEnumerable<Vehicle>> Get()
         {
-            return Ok(_vehicle.Get());
+            var entity = _uow.GetRepository<Vehicle>().Get();
+            return Ok(entity);
         }
 
         // GET api/trips/5
         [HttpGet("{id}")]
         public ActionResult<Vehicle> Get(int id)
         {
-            return Ok(_vehicle.Get(id));
+            var entity = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id).FirstOrDefault();
+            return Ok(entity);
         }
 
         // POST api/trips
         [HttpPost]
         public void Post([FromBody] Vehicle entity)
         {
-            _vehicle.Add(entity);
+            _uow.GetRepository<Vehicle>().Add(entity);
+            _uow.SaveChanges();
         }
 
         // PUT api/trips/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Vehicle entity)
         {
-            if (entity.VehicleId == 0) entity.VehicleId = id; 
-            _vehicle.Update(entity);
+            _uow.GetRepository<Vehicle>().Update(entity);
+            _uow.SaveChanges();
         }
 
         // DELETE api/trips/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _vehicle.Delete(id);
+            var existing = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id);
+            if (existing != null) _uow.GetRepository<Vehicle>().Delete(existing);
         }
     }
 }
