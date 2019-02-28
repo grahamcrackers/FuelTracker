@@ -2,13 +2,16 @@ language: csharp
 mono: none
 dotnet: 2.2
 dist: xenial
+
+env:
+  - OPENCOVER_FILE=./GasTracker.Tests/IntegrationTests/coverage.opencover.xml
 install:
   - dotnet restore
   - dotnet tool install coveralls.net --version 1.0.0 --tool-path tools
 script:
   - dotnet build
   - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-  - ./tools/csmacnz.Coveralls --opencover -i ./GasTracker.Tests/IntegrationTests/coverage.opencover.xml --repoToken ${COVERALLS_REPO_TOKEN}
+  - ./tools/csmacnz.Coveralls --opencover -i ${OPENCOVER_FILE} --repoToken ${COVERALLS_REPO_TOKEN}
   - curl -s https://codecov.io/bash > codecov
   - chmod +x codecov
-  - ./codecov -f "MyProject_coverage.xml" -t ${CODECOV_TOKEN}
+  - ./codecov -f "${OPENCOVER_FILE}" -t ${CODECOV_TOKEN}
