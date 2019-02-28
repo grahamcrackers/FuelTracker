@@ -35,3 +35,5 @@ msbuild.wrn
 
 # Don't commit the database
 *.db
+tools
+coverage.*.xml

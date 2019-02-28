@@ -2,9 +2,9 @@
 <CoverageSession>
   <Summary numSequencePoints="7745" visitedSequencePoints="1789" numBranchPoints="7745" visitedBranchPoints="1789" sequenceCoverage="0.231" branchCoverage="0.231" maxCyclomaticComplexity="2358" minCyclomaticComplexity="235" visitedClasses="109" numClasses="306" visitedMethods="440" numMethods="1682" />
   <Modules>
-    <Module hash="465A17ED-AC26-46BE-8316-0E5E8FAA90AC">
+    <Module hash="849C6627-F3B7-478E-8F0A-44E692A64ABE">
       <ModulePath>xunit.runner.reporters.netcoreapp10.dll</ModulePath>
-      <ModuleTime>2019-02-27T06:31:10</ModuleTime>
+      <ModuleTime>2019-02-28T01:36:43</ModuleTime>
       <ModuleName>xunit.runner.reporters.netcoreapp10</ModuleName>
       <Files>
         <File uid="1" fullPath="C:\Dev\xunit\xunit\src\xunit.runner.reporters\Utility\EnvironmentHelper.cs" />
@@ -3558,9 +3558,9 @@
         </Class>
       </Classes>
     </Module>
-    <Module hash="C4CDC698-3228-4003-9E31-EB6A7B5F2F9F">
+    <Module hash="1728B803-EA75-401C-B012-054C21DAEF4F">
       <ModulePath>xunit.runner.visualstudio.dotnetcore.testadapter.dll</ModulePath>
-      <ModuleTime>2019-02-27T06:31:10</ModuleTime>
+      <ModuleTime>2019-02-28T01:36:43</ModuleTime>
       <ModuleName>xunit.runner.visualstudio.dotnetcore.testadapter</ModuleName>
       <Files>
         <File uid="20" fullPath="C:\Dev\xunit\xunit\src\xunit.runner.visualstudio\Utility\ExceptionExtensions.cs" />
@@ -12052,9 +12052,9 @@
         </Class>
       </Classes>
     </Module>
-    <Module hash="A8FFEE80-EF75-4169-9D39-BE3CB20CDBC8">
+    <Module hash="00A7AEFE-8FE5-4A4D-9F55-80B84B370C80">
       <ModulePath>xunit.runner.utility.netcoreapp10.dll</ModulePath>
-      <ModuleTime>2019-02-27T06:31:10</ModuleTime>
+      <ModuleTime>2019-02-28T01:36:43</ModuleTime>
       <ModuleName>xunit.runner.utility.netcoreapp10</ModuleName>
       <Files>
         <File uid="72" fullPath="C:\Dev\xunit\xunit\src\xunit.runner.utility\Extensions\DisposableExtensions.cs" />
@@ -28042,9 +28042,9 @@
         </Class>
       </Classes>
     </Module>
-    <Module hash="B24392E6-6059-4FC2-B7D3-0E729CE960E9">
+    <Module hash="DDA3EBEF-5DAE-400C-AE64-B3073665AA69">
       <ModulePath>GasTracker.API.dll</ModulePath>
-      <ModuleTime>2019-02-27T06:31:10</ModuleTime>
+      <ModuleTime>2019-02-28T01:36:43</ModuleTime>
       <ModuleName>GasTracker.API</ModuleName>
       <Files>
         <File uid="209" fullPath="/Users/grogers/dev/git/github/GasTracker/GasTracker.API/Data/MappingProfile.cs" />
