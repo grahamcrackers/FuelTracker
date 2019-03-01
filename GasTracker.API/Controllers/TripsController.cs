@@ -10,12 +10,12 @@ namespace GasTracker.API.Controllers
 {
     [Route("api/trips")]
     [ApiController]
-    public class TripController : ControllerBase
+    public class TripsController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public TripController(IUnitOfWork uow, IMapper mapper)
+        public TripsController(IUnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
             _mapper = mapper;
@@ -25,7 +25,7 @@ namespace GasTracker.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Trip>> Get()
         {
-            var trips = _uow.GetRepository<Trip>().Get().FirstOrDefault();
+            var trips = _uow.GetRepository<Trip>().Get();
             return Ok(trips);
         }
 
@@ -39,18 +39,22 @@ namespace GasTracker.API.Controllers
 
         // POST api/trips
         [HttpPost]
-        public void Post([FromBody] Trip entity)
+        public ActionResult<Trip> Post([FromBody] Trip entity)
         {
-            _uow.GetRepository<Trip>().Add(entity);
+            var added = _uow.GetRepository<Trip>().Add(entity);
             _uow.SaveChanges();
+
+            return Ok(added);
         }
 
         // PUT api/trips/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Trip entity)
+        public ActionResult<Trip> Put(int id, [FromBody] Trip entity)
         {
-            _uow.GetRepository<Trip>().Update(entity);
+            var updated = _uow.GetRepository<Trip>().Update(entity);
             _uow.SaveChanges();
+
+            return Ok(updated);
         }
 
         // DELETE api/trips/5

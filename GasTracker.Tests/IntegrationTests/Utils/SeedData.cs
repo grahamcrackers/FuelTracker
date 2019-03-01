@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
@@ -36,10 +37,30 @@ namespace IntegrationTests.Utils
                 UserId = 2
             };
 
+            Trip trip1 = new Trip(){
+                VehicleId = 1,
+                Date = DateTime.Now,
+                Odometer = 1000,
+                TripMeter = 276.8m,
+                TotalGallons = 18.73m,
+                TotalFuelCost = 44.44m
+            };
+
+            Trip trip2 = new Trip(){
+                VehicleId = 1,
+                Date = DateTime.Now,
+                Odometer = 1276,
+                TripMeter = 299.3m,
+                TotalGallons = 19.72m,
+                TotalFuelCost = 49.83m
+            };
+
             dbContext.Users.Add(jon);
             dbContext.Users.Add(dany);
             dbContext.Vehicles.Add(jeep);
             dbContext.Vehicles.Add(escape);
+            dbContext.Trips.Add(trip1);
+            dbContext.Trips.Add(trip2);
             
             dbContext.SaveChanges();
         }
