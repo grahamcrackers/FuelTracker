@@ -4,9 +4,6 @@
 <a href="https://codecov.io/gh/grahamcrackers/FuelTracker">
   <img src="https://codecov.io/gh/grahamcrackers/FuelTracker/branch/master/graph/badge.svg" />
 </a>
-<a href='https://coveralls.io/github/grahamcrackers/FuelTracker?branch=master'>
-    <img src='https://coveralls.io/repos/github/grahamcrackers/FuelTracker/badge.svg?branch=master' alt='Coverage Status' />
-</a>
 
 # Gas Tracker API
 

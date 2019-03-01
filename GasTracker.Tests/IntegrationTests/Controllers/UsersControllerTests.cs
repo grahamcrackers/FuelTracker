@@ -78,24 +78,24 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_update_user()
         {
-            var newUser = new User()
-            {
-                FirstName = "Jon",
-                LastName = "Targaryen",
-                Username = "jtargaryen",
-                Email = "lordcommander@weirwood.net"
-            };
+            // Get the user
+            var httpResponse = await _client.GetAsync("/api/users/1");
+            httpResponse.EnsureSuccessStatusCode();
+            
+            var getResponse = await httpResponse.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<User>(getResponse);
+            user.LastName = "Targaryen";
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.PutAsync("/api/users/1", getBodyJson(newUser));
+            httpResponse = await _client.PutAsync("/api/users/1", getBodyJson(user));
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<User>(stringResponse);
-            Assert.True(user.LastName == "Targaryen");
-            Assert.True(user.UserId == 1);
+            var putResponse = await httpResponse.Content.ReadAsStringAsync();
+            var updated = JsonConvert.DeserializeObject<User>(putResponse);
+            Assert.True(updated.LastName == "Targaryen");
+            Assert.True(updated.UserId == 1);
         }
 
         [Fact]
