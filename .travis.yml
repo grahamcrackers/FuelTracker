@@ -4,7 +4,10 @@ dotnet: 2.2
 dist: xenial
 
 env:
-  - OPENCOVER_FILE=./coverage.opencover.xml TEST_ASSEMBLY=./GasTracker.Tests/IntegrationTests/bin/Debug/netcoreapp2.2/IntegrationTests.dll TEST_PROJECT=./GasTracker.Tests/IntegrationTests/IntegrationTests.csproj
+  global:
+    - OPENCOVER_FILE=./coverage.opencover.xml 
+    - TEST_ASSEMBLY=./GasTracker.Tests/IntegrationTests/bin/Debug/netcoreapp2.2/IntegrationTests.dll 
+    - TEST_PROJECT=./GasTracker.Tests/IntegrationTests/IntegrationTests.csproj
 install:
   - dotnet restore
   - dotnet tool install coverlet.console --tool-path tools
