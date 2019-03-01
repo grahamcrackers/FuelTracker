@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
 
@@ -23,8 +24,23 @@ namespace IntegrationTests.Utils
                 Email = "DaenerysStormbornoftheHouseTargaryentheFirstofHerNametheUnburntQueenofMeereenQueenoftheAndalsandtheRhoynarandtheFirstMenKhaleesioftheGreatGrassSeaBreakerofChainsandMotherofDragons@weirwood.net"
             };
 
+            Vehicle jeep = new Vehicle(){
+                Make = "Jeep",
+                Model = "Wrangler",
+                UserId = 1
+            };
+
+            Vehicle escape = new Vehicle(){
+                Make = "Ford",
+                Model = "Escape",
+                UserId = 2
+            };
+
             dbContext.Users.Add(jon);
             dbContext.Users.Add(dany);
+            dbContext.Vehicles.Add(jeep);
+            dbContext.Vehicles.Add(escape);
+            
             dbContext.SaveChanges();
         }
     }

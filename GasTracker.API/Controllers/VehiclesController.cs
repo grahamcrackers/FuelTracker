@@ -39,18 +39,22 @@ namespace GasTracker.API.Controllers
 
         // POST api/trips
         [HttpPost]
-        public void Post([FromBody] Vehicle entity)
+        public ActionResult<Vehicle> Post([FromBody] Vehicle entity)
         {
-            _uow.GetRepository<Vehicle>().Add(entity);
+            var added = _uow.GetRepository<Vehicle>().Add(entity);
             _uow.SaveChanges();
+            
+            return Ok(added);
         }
 
         // PUT api/trips/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Vehicle entity)
+        public ActionResult<Vehicle> Put(int id, [FromBody] Vehicle entity)
         {
-            _uow.GetRepository<Vehicle>().Update(entity);
+            var updated = _uow.GetRepository<Vehicle>().Update(entity);
             _uow.SaveChanges();
+
+            return Ok(updated);
         }
 
         // DELETE api/trips/5

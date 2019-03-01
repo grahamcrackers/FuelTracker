@@ -10,8 +10,8 @@ namespace GasTracker.API.Data.Context
             : base(options)
         { }
 
-        // public DbSet<Trip> Trips { get; set; }
-        // public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<User> Users { get; set; }
 
     }

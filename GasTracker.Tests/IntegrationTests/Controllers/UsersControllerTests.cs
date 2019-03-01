@@ -85,10 +85,9 @@ namespace IntegrationTests.Controllers
             var getResponse = await httpResponse.Content.ReadAsStringAsync();
             var user = JsonConvert.DeserializeObject<User>(getResponse);
             user.LastName = "Targaryen";
+
             // The endpoint or route of the controller action.
             httpResponse = await _client.PutAsync("/api/users/1", getBodyJson(user));
-
-            // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
