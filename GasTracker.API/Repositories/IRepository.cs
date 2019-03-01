@@ -12,7 +12,7 @@ namespace GasTracker.API.Repositories
         IEnumerable<T> Get();
         IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
 
-        void Add(T entity);
+        T Add(T entity);
         void Add(params T[] entities);
         void Add(IEnumerable<T> entities);
 
@@ -23,7 +23,7 @@ namespace GasTracker.API.Repositories
         void Delete(IEnumerable<T> entities);
         
         
-        void Update(T entity);
+        T Update(T entity);
         void Update(params T[] entities);
         void Update(IEnumerable<T> entities);
     }

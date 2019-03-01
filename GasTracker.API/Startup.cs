@@ -74,6 +74,7 @@ namespace GasTracker.API
             app.UseSwaggerUI(config =>
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Gas Tracker API");
+                config.RoutePrefix = string.Empty; // point root to swagger
             });
 
             app.UseCors(builder =>

@@ -13,9 +13,10 @@ namespace GasTracker.API.Repositories
         {
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            _dbSet.Add(entity);
+            var added = _dbSet.Add(entity);
+            return added.Entity;
         }
 
         public void Add(params T[] entities)
@@ -78,9 +79,10 @@ namespace GasTracker.API.Repositories
             return _dbSet.Where(predicate).AsEnumerable();
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
-            _dbSet.Update(entity);
+            var updated = _dbSet.Update(entity);
+            return updated.Entity;
         }
 
         public void Update(params T[] entities)

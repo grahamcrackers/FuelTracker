@@ -42,18 +42,22 @@ namespace GasTracker.API.Controllers
 
         // POST api/users
         [HttpPost]
-        public void Post([FromBody] User user)
+        public ActionResult<User> Post([FromBody] User user)
         {
-            _uow.GetRepository<User>().Add(user);
+            var added = _uow.GetRepository<User>().Add(user);
             _uow.SaveChanges();
+
+            return Ok(added);
         }
 
         // PUT api/users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User user)
+        public ActionResult<User> Put(int id, [FromBody] User user)
         {
-            _uow.GetRepository<User>().Update(user);
+            var updated = _uow.GetRepository<User>().Update(user);
             _uow.SaveChanges();
+
+            return Ok(updated);
         }
 
         // DELETE api/users/5

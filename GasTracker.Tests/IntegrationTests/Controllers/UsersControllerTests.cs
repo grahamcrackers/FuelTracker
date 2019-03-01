@@ -68,7 +68,11 @@ namespace IntegrationTests.Controllers
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
-            Assert.True(httpResponse.IsSuccessStatusCode);
+            
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<User>(stringResponse);
+            Assert.True(user.FirstName == "Test");
+            Assert.True(user.UserId > 0);
         }
 
         [Fact]
@@ -86,7 +90,12 @@ namespace IntegrationTests.Controllers
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
-            Assert.True(httpResponse.IsSuccessStatusCode);
+
+            // Assert
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            var user = JsonConvert.DeserializeObject<User>(stringResponse);
+            Assert.True(user.LastName == "Targaryen");
+            Assert.True(user.UserId == 1);
         }
 
         [Fact]
