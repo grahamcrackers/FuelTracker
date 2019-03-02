@@ -63,6 +63,7 @@ namespace GasTracker.API.Controllers
         {
             var existing = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id);
             if (existing != null) _uow.GetRepository<Vehicle>().Delete(existing);
+            _uow.SaveChanges();
         }
     }
 }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,11 +27,12 @@ namespace GasTracker.API.Controllers
 
         // GET api/users
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<UserDTO>), StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<User>> Get()
         {
             var users = _uow.GetRepository<User>().Get();
-            // var dto = _mapper.Map<UserDTO>(users);
-            return Ok(users);
+            var dtoList = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
+            return Ok(dtoList);
         }
 
         // GET api/users/5
@@ -37,7 +40,8 @@ namespace GasTracker.API.Controllers
         public ActionResult<User> Get(int id)
         {
             var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
-            return Ok(user);
+            var dto = _mapper.Map<User, UserDTO>(user);
+            return Ok(dto);
         }
 
         // POST api/users
@@ -66,6 +70,7 @@ namespace GasTracker.API.Controllers
         {
             var existing = _uow.GetRepository<User>().Get(x => x.UserId == id);
             if (existing != null) _uow.GetRepository<User>().Delete(existing);
+            _uow.SaveChanges();
         }
     }
 }
