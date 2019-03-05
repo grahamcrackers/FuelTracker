@@ -14,7 +14,7 @@ install:
 script:
   - dotnet build
   - # ./tools/coverlet ${TEST_ASSEMBLY} --target "dotnet" --targetargs "test ${TEST_PROJECT} --no-build" --format opencover --exclude-by-file "./GasTracker.API/Data/"
-  - dotnet test /p:CollectCoverage=true /p:CollectCoverageFormat=opencover /p:ExcludeByFile="./GasTracker.API/Data/" /p:CoverletOutput=./
+  - dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="./GasTracker.API/Data/" /p:CoverletOutput=./
   - curl -s https://codecov.io/bash > codecov
   - chmod +x codecov
   - ./codecov -f "${OPENCOVER_FILE}" -t ${CODECOV_TOKEN}
