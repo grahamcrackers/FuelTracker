@@ -49,7 +49,7 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_add_trip()
         {
-            Trip trip3 = new Trip()
+            TripDTO trip3 = new TripDTO()
             {
                 VehicleId = 1,
                 Date = DateTime.Now.Date,
@@ -66,9 +66,9 @@ namespace IntegrationTests.Controllers
             httpResponse.EnsureSuccessStatusCode();
 
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var trip = JsonConvert.DeserializeObject<Trip>(stringResponse);
+            var trip = JsonConvert.DeserializeObject<TripDTO>(stringResponse);
             Assert.True(trip.Odometer > 0);
-            Assert.True(trip.TripId > 0);
+            Assert.True(trip.Id > 0);
         }
 
         [Fact]
