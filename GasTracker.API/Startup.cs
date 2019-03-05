@@ -29,13 +29,14 @@ namespace GasTracker.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Add DB
-            var connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<TrackerContext>(options => options.UseSqlite(connection));
+            var connection = Configuration.GetConnectionString("PostgresConnection");
+            services.AddDbContext<TrackerContext>(options => options.UseNpgsql(connection));
             services.AddUnitOfWork<TrackerContext>();
 
             // AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>
             {
+                // mc.AllowNullCollections = true;
                 mc.AddProfile(new MappingProfile());
             });
             services.AddSingleton<IMapper>(mappingConfig.CreateMapper());
@@ -80,7 +81,9 @@ namespace GasTracker.API
             app.UseCors(builder =>
             {
                 builder.AllowAnyOrigin()
-                       .AllowAnyHeader();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                       
             });
 
             app.UseHealthChecks("/health");

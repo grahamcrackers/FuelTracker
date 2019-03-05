@@ -2,11 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GasTracker.API.Data.Models {
-    public class Trip {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TripId { get; set; }
+namespace GasTracker.API.Data.DTO {
+    public class TripDTO {
+        public int? Id { get; set; }
         public DateTime Date { get; set; }
         public int Odometer { get; set; }
         public decimal TripMeter { get; set; }
@@ -16,6 +14,5 @@ namespace GasTracker.API.Data.Models {
         public decimal MilesPerGallon { get; set; }
         public decimal CostPerMile { get; set; }
         public int VehicleId { get; set; }
-        public Vehicle Vehicle { get; set; }
     }
 }

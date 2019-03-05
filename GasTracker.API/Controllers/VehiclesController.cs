@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GasTracker.API.Controllers
@@ -21,49 +23,65 @@ namespace GasTracker.API.Controllers
             _mapper = mapper;
         }
         
-        // GET api/trips/all
+        // GET api/vehicles
         [HttpGet]
-        public ActionResult<IEnumerable<Vehicle>> Get()
+        [ProducesResponseType(typeof(IEnumerable<VehicleDTO>), StatusCodes.Status200OK)]
+        public IActionResult Get()
         {
-            var entity = _uow.GetRepository<Vehicle>().Get();
-            return Ok(entity);
+            var vehicles = _uow.GetRepository<Vehicle>().Get();
+            var dtoList = _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleDTO>>(vehicles);
+
+            return Ok(dtoList);
         }
 
-        // GET api/trips/5
+        // GET api/vehicles/5
         [HttpGet("{id}")]
-        public ActionResult<Vehicle> Get(int id)
+        [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+        public IActionResult Get(int id)
         {
-            var entity = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id).FirstOrDefault();
-            return Ok(entity);
+            var vehicle = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id).FirstOrDefault();
+            var dto = _mapper.Map<Vehicle, VehicleDTO>(vehicle);
+
+            return Ok(dto);
         }
 
-        // POST api/trips
+        // POST api/vehicles
         [HttpPost]
-        public ActionResult<Vehicle> Post([FromBody] Vehicle entity)
+        [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+        public IActionResult Post([FromBody] VehicleDTO vehicle)
         {
-            var added = _uow.GetRepository<Vehicle>().Add(entity);
+            var fromDto = _mapper.Map<VehicleDTO, Vehicle>(vehicle);
+            var added = _uow.GetRepository<Vehicle>().Add(fromDto);
             _uow.SaveChanges();
             
-            return Ok(added);
+            var dto = _mapper.Map<Vehicle, VehicleDTO>(added);
+
+            return Ok(dto);
         }
 
-        // PUT api/trips/5
+        // PUT api/vehicles/5
         [HttpPut("{id}")]
-        public ActionResult<Vehicle> Put(int id, [FromBody] Vehicle entity)
+        [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+        public IActionResult Put(int id, [FromBody] VehicleDTO vehicle)
         {
-            var updated = _uow.GetRepository<Vehicle>().Update(entity);
+            var fromDto = _mapper.Map<VehicleDTO, Vehicle>(vehicle);
+            var updated = _uow.GetRepository<Vehicle>().Update(fromDto);
             _uow.SaveChanges();
 
-            return Ok(updated);
+            var dto = _mapper.Map<Vehicle, VehicleDTO>(updated);
+
+            return Ok(dto);
         }
 
-        // DELETE api/trips/5
+        // DELETE api/vehicles/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             var existing = _uow.GetRepository<Vehicle>().Get(x => x.VehicleId == id);
             if (existing != null) _uow.GetRepository<Vehicle>().Delete(existing);
             _uow.SaveChanges();
+
+            return Ok();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace IntegrationTests.Utils
                 FirstName = "Jon",
                 LastName = "Snow",
                 Username = "jsnow",
-                Email = "lordcommander@weirwood.net"
+                Email = "lordcommander@weirwood.net",
             };
 
             User dany = new User()
@@ -25,19 +25,22 @@ namespace IntegrationTests.Utils
                 Email = "DaenerysStormbornoftheHouseTargaryentheFirstofHerNametheUnburntQueenofMeereenQueenoftheAndalsandtheRhoynarandtheFirstMenKhaleesioftheGreatGrassSeaBreakerofChainsandMotherofDragons@weirwood.net"
             };
 
-            Vehicle jeep = new Vehicle(){
+            Vehicle jeep = new Vehicle()
+            {
                 Make = "Jeep",
                 Model = "Wrangler",
                 UserId = 1
             };
 
-            Vehicle escape = new Vehicle(){
+            Vehicle escape = new Vehicle()
+            {
                 Make = "Ford",
                 Model = "Escape",
                 UserId = 2
             };
-
-            Trip trip1 = new Trip(){
+            
+            Trip trip1 = new Trip()
+            {
                 VehicleId = 1,
                 Date = DateTime.Now,
                 Odometer = 1000,
@@ -46,8 +49,9 @@ namespace IntegrationTests.Utils
                 TotalFuelCost = 44.44m
             };
 
-            Trip trip2 = new Trip(){
-                VehicleId = 1,
+            Trip trip2 = new Trip()
+            {
+                VehicleId = 2,
                 Date = DateTime.Now,
                 Odometer = 1276,
                 TripMeter = 299.3m,
@@ -61,7 +65,7 @@ namespace IntegrationTests.Utils
             dbContext.Vehicles.Add(escape);
             dbContext.Trips.Add(trip1);
             dbContext.Trips.Add(trip2);
-            
+
             dbContext.SaveChanges();
         }
     }

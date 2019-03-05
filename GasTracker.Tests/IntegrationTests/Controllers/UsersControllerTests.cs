@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GasTracker.API;
-using GasTracker.API.Data.Models;
+using GasTracker.API.Data.DTO;
 using IntegrationTests.Utils;
 using Newtonsoft.Json;
 using Xunit;
@@ -32,7 +32,7 @@ namespace IntegrationTests.Controllers
 
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<IEnumerable<User>>(stringResponse);
+            var users = JsonConvert.DeserializeObject<IEnumerable<UserDTO>>(stringResponse);
             Assert.Contains(users, u => u.FirstName == "Jon");
             Assert.Contains(users, u => u.FirstName == "Daenerys");
         }
@@ -48,31 +48,32 @@ namespace IntegrationTests.Controllers
 
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<User>(stringResponse);
+            var user = JsonConvert.DeserializeObject<UserDTO>(stringResponse);
             Assert.True(user.FirstName == "Jon");
         }
 
         [Fact]
         public async Task can_add_user()
         {
-            var newUser = new User()
+            var newUser = new UserDTO()
             {
                 FirstName = "Test",
                 LastName = "User",
                 Username = "tuser",
                 Email = "tuser@test.com"
+                
             };
 
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.PostAsync("/api/users", getBodyJson(newUser));
+            var httpResponse = await _client.PostAsync("/api/users", getBodyJson<UserDTO>(newUser));
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
             
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<User>(stringResponse);
+            var user = JsonConvert.DeserializeObject<UserDTO>(stringResponse);
             Assert.True(user.FirstName == "Test");
-            Assert.True(user.UserId > 0);
+            Assert.True(user.Id > 0);
         }
 
         [Fact]
@@ -83,34 +84,47 @@ namespace IntegrationTests.Controllers
             httpResponse.EnsureSuccessStatusCode();
             
             var getResponse = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<User>(getResponse);
+            var user = JsonConvert.DeserializeObject<UserDTO>(getResponse);
             user.LastName = "Targaryen";
 
             // The endpoint or route of the controller action.
-            httpResponse = await _client.PutAsync("/api/users/1", getBodyJson(user));
+            httpResponse = await _client.PutAsync("/api/users/1", getBodyJson<UserDTO>(user));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
             var putResponse = await httpResponse.Content.ReadAsStringAsync();
-            var updated = JsonConvert.DeserializeObject<User>(putResponse);
+            var updated = JsonConvert.DeserializeObject<UserDTO>(putResponse);
             Assert.True(updated.LastName == "Targaryen");
-            Assert.True(updated.UserId == 1);
+            Assert.True(updated.Id == 1);
         }
 
         [Fact]
         public async Task can_delete_user()
         {
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.DeleteAsync("/api/users/1");
+            var httpResponse = await _client.DeleteAsync("/api/users/2");
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
             Assert.True(httpResponse.IsSuccessStatusCode);
         }
 
-        private StringContent getBodyJson(User user)
+        private async Task<UserDTO> getSingleUser(int id)
         {
-            return new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            // The endpoint or route of the controller action.
+            var httpResponse = await _client.GetAsync($"/api/users/{id}");
+
+            // Must be successful.
+            httpResponse.EnsureSuccessStatusCode();
+
+            // Deserialize and examine results.
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<UserDTO>(stringResponse);
+        }
+
+        private StringContent getBodyJson<T>(T obj)
+        {
+            return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
         }
     }
 }

@@ -37,6 +37,7 @@ namespace GasTracker.API.Controllers
 
         // GET api/users/5
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
         public ActionResult<User> Get(int id)
         {
             var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
@@ -46,22 +47,28 @@ namespace GasTracker.API.Controllers
 
         // POST api/users
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
+        public IActionResult Post([FromBody] UserDTO user)
         {
-            var added = _uow.GetRepository<User>().Add(user);
+            var fromDto = _mapper.Map<UserDTO, User>(user);
+            var added = _uow.GetRepository<User>().Add(fromDto);
             _uow.SaveChanges();
 
-            return Ok(added);
+            var dto = _mapper.Map<User, UserDTO>(added);
+
+            return Ok(dto);
         }
 
         // PUT api/users/5
         [HttpPut("{id}")]
-        public ActionResult<User> Put(int id, [FromBody] User user)
+        public ActionResult<User> Put(int id, [FromBody] UserDTO user)
         {
-            var updated = _uow.GetRepository<User>().Update(user);
+            var fromDto = _mapper.Map<UserDTO, User>(user);
+            var updated = _uow.GetRepository<User>().Update(fromDto);
             _uow.SaveChanges();
 
-            return Ok(updated);
+            var dto = _mapper.Map<User, UserDTO>(updated);
+            return Ok(dto);
         }
 
         // DELETE api/users/5

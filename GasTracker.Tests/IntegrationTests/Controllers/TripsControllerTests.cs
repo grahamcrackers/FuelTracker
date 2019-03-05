@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GasTracker.API;
+using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using IntegrationTests.Utils;
 using Newtonsoft.Json;
@@ -41,22 +42,15 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_get_single_trip()
         {
-            // The endpoint or route of the controller action.
-            var httpResponse = await _client.GetAsync("/api/trips/1");
-
-            // Must be successful.
-            httpResponse.EnsureSuccessStatusCode();
-
-            // Deserialize and examine results.
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var trip = JsonConvert.DeserializeObject<Trip>(stringResponse);
+            var trip = await getSingleTrip<TripDTO>(1);
             Assert.True(trip.Odometer == 1000);
         }
 
         [Fact]
         public async Task can_add_trip()
         {
-            Trip trip3 = new Trip(){
+            Trip trip3 = new Trip()
+            {
                 VehicleId = 1,
                 Date = DateTime.Now.Date,
                 Odometer = 1578,
@@ -70,7 +64,7 @@ namespace IntegrationTests.Controllers
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
-            
+
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             var trip = JsonConvert.DeserializeObject<Trip>(stringResponse);
             Assert.True(trip.Odometer > 0);
@@ -80,16 +74,11 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_update_trip()
         {
-            // Get the user
-            var httpResponse = await _client.GetAsync("/api/trips/1");
-            httpResponse.EnsureSuccessStatusCode();
-            
-            var getResponse = await httpResponse.Content.ReadAsStringAsync();
-            var trip = JsonConvert.DeserializeObject<Trip>(getResponse);
+            Trip trip = await getSingleTrip<Trip>(2);
             trip.VehicleId = 2;
 
             // The endpoint or route of the controller action.
-            httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson(trip));
+            var httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson<Trip>(trip));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
@@ -107,6 +96,19 @@ namespace IntegrationTests.Controllers
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
             Assert.True(httpResponse.IsSuccessStatusCode);
+        }
+
+        private async Task<T> getSingleTrip<T>(int id)
+        {
+            // The endpoint or route of the controller action.
+            var httpResponse = await _client.GetAsync($"/api/trips/{id}");
+
+            // Must be successful.
+            httpResponse.EnsureSuccessStatusCode();
+
+            // Deserialize and examine results.
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(stringResponse);
         }
 
         private StringContent getBodyJson<T>(T user)

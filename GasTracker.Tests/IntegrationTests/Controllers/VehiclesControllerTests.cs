@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using GasTracker.API;
+using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using IntegrationTests.Utils;
 using Newtonsoft.Json;
@@ -32,30 +33,21 @@ namespace IntegrationTests.Controllers
 
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var vehicles = JsonConvert.DeserializeObject<IEnumerable<Vehicle>>(stringResponse);
+            var vehicles = JsonConvert.DeserializeObject<IEnumerable<VehicleDTO>>(stringResponse);
             Assert.Contains(vehicles, v => v.Make == "Jeep");
-            Assert.Contains(vehicles, v => v.Model == "Escape");
         }
 
         [Fact]
         public async Task can_get_single_vehicle()
         {
-            // The endpoint or route of the controller action.
-            var httpResponse = await _client.GetAsync("/api/vehicles/1");
-
-            // Must be successful.
-            httpResponse.EnsureSuccessStatusCode();
-
-            // Deserialize and examine results.
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var vehicle = JsonConvert.DeserializeObject<Vehicle>(stringResponse);
+            var vehicle = await getSingleVehicle(1);
             Assert.True(vehicle.Make == "Jeep");
         }
 
         [Fact]
         public async Task can_add_vehicle()
         {
-            var newVehicle = new Vehicle()
+            var newVehicle = new VehicleDTO()
             {
                 Make = "Subaru",
                 Model = "BRZ",
@@ -63,13 +55,13 @@ namespace IntegrationTests.Controllers
             };
 
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.PostAsync("/api/vehicles", getBodyJson<Vehicle>(newVehicle));
+            var httpResponse = await _client.PostAsync("/api/vehicles", getBodyJson<VehicleDTO>(newVehicle));
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
             
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            var vehicle = JsonConvert.DeserializeObject<Vehicle>(stringResponse);
+            var vehicle = JsonConvert.DeserializeObject<VehicleDTO>(stringResponse);
             Assert.True(vehicle.Make == "Subaru");
             Assert.True(vehicle.UserId > 0);
         }
@@ -77,21 +69,16 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_update_vehicle()
         {
-            // Get the user
-            var httpResponse = await _client.GetAsync("/api/vehicles/1");
-            httpResponse.EnsureSuccessStatusCode();
-            
-            var getResponse = await httpResponse.Content.ReadAsStringAsync();
-            var vehicle = JsonConvert.DeserializeObject<Vehicle>(getResponse);
+            VehicleDTO vehicle = await getSingleVehicle(1);
             vehicle.UserId = 2;
 
             // The endpoint or route of the controller action.
-            httpResponse = await _client.PutAsync("/api/vehicles/1", getBodyJson(vehicle));
+            var httpResponse = await _client.PutAsync("/api/vehicles/1", getBodyJson<VehicleDTO>(vehicle));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
             var putResponse = await httpResponse.Content.ReadAsStringAsync();
-            var updated = JsonConvert.DeserializeObject<Vehicle>(putResponse);
+            var updated = JsonConvert.DeserializeObject<VehicleDTO>(putResponse);
             Assert.True(updated.UserId == 2);
         }
 
@@ -99,11 +86,24 @@ namespace IntegrationTests.Controllers
         public async Task can_delete_vehicle()
         {
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.DeleteAsync("/api/vehicles/1");
+            var httpResponse = await _client.DeleteAsync("/api/vehicles/2");
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();
             Assert.True(httpResponse.IsSuccessStatusCode);
+        }
+
+        private async Task<VehicleDTO> getSingleVehicle(int id)
+        {
+            // The endpoint or route of the controller action.
+            var httpResponse = await _client.GetAsync($"/api/vehicles/{id}");
+
+            // Must be successful.
+            httpResponse.EnsureSuccessStatusCode();
+
+            // Deserialize and examine results.
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<VehicleDTO>(stringResponse);
         }
 
         private StringContent getBodyJson<T>(T user)

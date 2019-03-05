@@ -1,6 +1,7 @@
 using GasTracker.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GasTracker.API.Data.Context
 {
