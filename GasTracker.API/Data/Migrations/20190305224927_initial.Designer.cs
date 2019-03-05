@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GasTracker.API.Data.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20190304050508_postgres")]
-    partial class postgres
+    [Migration("20190305224927_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GasTracker.API.Data.Migrations
 {
@@ -12,7 +13,7 @@ namespace GasTracker.API.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     Username = table.Column<string>(nullable: false),
@@ -28,7 +29,7 @@ namespace GasTracker.API.Data.Migrations
                 columns: table => new
                 {
                     VehicleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Make = table.Column<string>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     Vin = table.Column<string>(nullable: true),
@@ -50,7 +51,7 @@ namespace GasTracker.API.Data.Migrations
                 columns: table => new
                 {
                     TripId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Date = table.Column<DateTime>(nullable: false),
                     Odometer = table.Column<int>(nullable: false),
                     TripMeter = table.Column<decimal>(nullable: false),
@@ -59,7 +60,7 @@ namespace GasTracker.API.Data.Migrations
                     CostPerGallon = table.Column<decimal>(nullable: false),
                     MilesPerGallon = table.Column<decimal>(nullable: false),
                     CostPerMile = table.Column<decimal>(nullable: false),
-                    VehicleId = table.Column<int>(nullable: true)
+                    VehicleId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +70,7 @@ namespace GasTracker.API.Data.Migrations
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "VehicleId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

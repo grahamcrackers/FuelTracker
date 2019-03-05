@@ -9,7 +9,9 @@ namespace GasTracker.API.Data.Context
     {
         public TrackerContext(DbContextOptions<TrackerContext> options)
             : base(options)
-        { }
+        { 
+            // this.Users.Include(u => u.Vehicles.Where(v => v.VehicleId == u.UserId));
+        }
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }

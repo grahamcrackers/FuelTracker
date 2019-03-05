@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -27,48 +26,43 @@ namespace GasTracker.API.Controllers
 
         // GET api/users
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<UserDTO>), StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<User>> Get()
+        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
+        public IActionResult Get()
         {
             var users = _uow.GetRepository<User>().Get();
-            var dtoList = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
-            return Ok(dtoList);
+            
+            return Ok(users);
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
-        public ActionResult<User> Get(int id)
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public IActionResult Get(int id)
         {
             var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
-            var dto = _mapper.Map<User, UserDTO>(user);
-            return Ok(dto);
+            
+            return Ok(user);
         }
 
         // POST api/users
         [HttpPost]
-        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
-        public IActionResult Post([FromBody] UserDTO user)
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        public IActionResult Post([FromBody] User user)
         {
-            var fromDto = _mapper.Map<UserDTO, User>(user);
-            var added = _uow.GetRepository<User>().Add(fromDto);
+            var added = _uow.GetRepository<User>().Add(user);
             _uow.SaveChanges();
 
-            var dto = _mapper.Map<User, UserDTO>(added);
-
-            return Ok(dto);
+            return Ok(added);
         }
 
         // PUT api/users/5
         [HttpPut("{id}")]
-        public ActionResult<User> Put(int id, [FromBody] UserDTO user)
+        public ActionResult<User> Put(int id, [FromBody] User user)
         {
-            var fromDto = _mapper.Map<UserDTO, User>(user);
-            var updated = _uow.GetRepository<User>().Update(fromDto);
+            var updated = _uow.GetRepository<User>().Update(user);
             _uow.SaveChanges();
 
-            var dto = _mapper.Map<User, UserDTO>(updated);
-            return Ok(dto);
+            return Ok(updated);
         }
 
         // DELETE api/users/5
