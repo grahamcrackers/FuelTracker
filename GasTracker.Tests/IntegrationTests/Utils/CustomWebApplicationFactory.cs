@@ -26,7 +26,7 @@ namespace IntegrationTests.Utils
                 {
                     options.UseInMemoryDatabase("InMemoryAppDb");
                     options.UseInternalServiceProvider(serviceProvider);
-                });
+                }, ServiceLifetime.Transient);
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();

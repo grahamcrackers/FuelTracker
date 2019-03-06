@@ -25,61 +25,64 @@ namespace GasTracker.API.Controllers
 
         // GET api/trips
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Trip>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<TripDTO>), StatusCodes.Status200OK)]
         public IActionResult Get()
         {
             var trips = _uow.GetRepository<Trip>().Get();
-            // var dtoList = _mapper.Map<IEnumerable<Trip>, IEnumerable<TripDTO>>(trips);
+            var dtoList = _mapper.Map<IEnumerable<Trip>, IEnumerable<TripDTO>>(trips);
 
-            return Ok(trips);
+            return Ok(dtoList);
         }
 
         // GET api/trips/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Trip), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
         public IActionResult Get(int id)
         {
             var trip = _uow.GetRepository<Trip>().Get(x => x.TripId == id).FirstOrDefault();
-            // var dto = _mapper.Map<Trip, TripDTO>(trip);
+            var dto = _mapper.Map<Trip, TripDTO>(trip);
 
-            return Ok(trip);
+            return Ok(dto);
         }
 
         // POST api/trips
         [HttpPost]
-        [ProducesResponseType(typeof(Trip), StatusCodes.Status200OK)]
-        public IActionResult Post([FromBody] Trip trip)
+        [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
+        public IActionResult Post([FromBody] TripDTO trip)
         {
-            // var fromDto = _mapper.Map<TripDTO, Trip>(trip);
-            var added = _uow.GetRepository<Trip>().Add(trip);
+            var fromDto = _mapper.Map<TripDTO, Trip>(trip);
+            var added = _uow.GetRepository<Trip>().Add(fromDto);
             _uow.SaveChanges();
 
-            // var dto = _mapper.Map<Trip, TripDTO>(added);
+            var dto = _mapper.Map<Trip, TripDTO>(added);
 
-            return Ok(added);
+            return Ok(dto);
         }
 
         // PUT api/trips/5
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(Trip), StatusCodes.Status200OK)]
-        public IActionResult Put(int id, [FromBody] Trip trip)
+        [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
+        public IActionResult Put(int id, [FromBody] TripDTO trip)
         {
-            // var fromDto = _mapper.Map<TripDTO, Trip>(trip);
-            var updated = _uow.GetRepository<Trip>().Update(trip);
+            var fromDto = _mapper.Map<TripDTO, Trip>(trip);
+            var updated = _uow.GetRepository<Trip>().Update(fromDto);
             _uow.SaveChanges();
 
-            // var dto = _mapper.Map<Trip, TripDTO>(updated);
+            var dto = _mapper.Map<Trip, TripDTO>(updated);
 
-            return Ok(updated);
+            return Ok(dto);
         }
 
         // DELETE api/trips/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult Delete(int id)
         {
             var existing = _uow.GetRepository<Trip>().Get(x => x.TripId == id);
             if (existing != null) _uow.GetRepository<Trip>().Delete(existing);
             _uow.SaveChanges();
+
+            return Ok();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace GasTracker.API
 
             // Add DB
             var connection = Configuration.GetConnectionString("PostgresConnection");
-            services.AddDbContext<TrackerContext>(options => options.UseNpgsql(connection));
+            services.AddDbContext<TrackerContext>(options => options.UseNpgsql(connection), ServiceLifetime.Transient);
             services.AddUnitOfWork<TrackerContext>();
 
             // AutoMapper

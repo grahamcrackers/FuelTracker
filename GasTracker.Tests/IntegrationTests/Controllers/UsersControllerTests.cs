@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GasTracker.API;
 using GasTracker.API.Data.DTO;
+using GasTracker.API.Repositories.Paging;
 using IntegrationTests.Utils;
 using Newtonsoft.Json;
 using Xunit;

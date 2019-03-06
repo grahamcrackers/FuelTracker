@@ -34,7 +34,7 @@ namespace IntegrationTests.Controllers
             // Deserialize and examine results.
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
             System.Console.WriteLine(stringResponse);
-            var trips = JsonConvert.DeserializeObject<IEnumerable<Trip>>(stringResponse);
+            var trips = JsonConvert.DeserializeObject<IEnumerable<TripDTO>>(stringResponse);
             Assert.Contains(trips, t => t.Odometer > 0);
             Assert.Contains(trips, t => t.TripMeter > 0);
         }
@@ -74,16 +74,16 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_update_trip()
         {
-            Trip trip = await getSingleTrip<Trip>(2);
+            var trip = await getSingleTrip<TripDTO>(1);
             trip.VehicleId = 2;
 
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson<Trip>(trip));
+            var httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson<TripDTO>(trip));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
             var putResponse = await httpResponse.Content.ReadAsStringAsync();
-            var updated = JsonConvert.DeserializeObject<Trip>(putResponse);
+            var updated = JsonConvert.DeserializeObject<TripDTO>(putResponse);
             Assert.True(updated.VehicleId == 2);
         }
 
