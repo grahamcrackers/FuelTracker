@@ -25,6 +25,7 @@ namespace IntegrationTests.Utils
                 services.AddDbContext<TrackerContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryAppDb");
+                           // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                     options.UseInternalServiceProvider(serviceProvider);
                 }, ServiceLifetime.Transient);
 

@@ -6,10 +6,10 @@ using AutoMapper;
 using GasTracker.API.Data.DTO;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories;
-using GasTracker.API.Repositories.Paging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace GasTracker.API.Controllers
 {
@@ -17,11 +17,14 @@ namespace GasTracker.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ILogger _log;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
+        
 
-        public UsersController(IUnitOfWork uow, IMapper mapper)
+        public UsersController(ILogger<UsersController> log, IUnitOfWork uow, IMapper mapper)
         {
+            _log = log;
             _uow = uow;
             _mapper = mapper;
         }
@@ -32,6 +35,7 @@ namespace GasTracker.API.Controllers
         public IActionResult Get()
         {
             var users = _uow.GetRepository<User>().Get();
+            _log.LogInformation("Get Users", users.ToString());
             var dtoList = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
 
             return Ok(dtoList);
@@ -40,9 +44,10 @@ namespace GasTracker.API.Controllers
         // GET api/users/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
-            var user = await _uow.GetRepositoryAsync<User>().SingleAsync(x => x.UserId == id);
+            var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
+            _log.LogInformation("Get Users", user.ToString());
             var dto = _mapper.Map<User, UserDTO>(user);
 
             return Ok(dto);
@@ -54,6 +59,7 @@ namespace GasTracker.API.Controllers
         public IActionResult Post([FromBody] UserDTO user)
         {
             var fromDto = _mapper.Map<UserDTO, User>(user);
+            _log.LogInformation("Add User", fromDto.ToString());
             var added = _uow.GetRepository<User>().Add(fromDto);
             _uow.SaveChanges();
 
@@ -65,9 +71,10 @@ namespace GasTracker.API.Controllers
         // PUT api/users/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Put(int id, [FromBody] UserDTO user)
+        public IActionResult Put(int id, [FromBody] UserDTO user)
         {
             var fromDto = _mapper.Map<UserDTO, User>(user);
+            _log.LogInformation("Update User", fromDto.ToString());
             var updated = _uow.GetRepository<User>().Update(fromDto);
             _uow.SaveChanges();
 

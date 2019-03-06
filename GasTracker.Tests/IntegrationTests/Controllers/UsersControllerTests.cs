@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GasTracker.API;
 using GasTracker.API.Data.DTO;
-using GasTracker.API.Repositories.Paging;
 using IntegrationTests.Utils;
 using Newtonsoft.Json;
 using Xunit;
@@ -81,22 +80,24 @@ namespace IntegrationTests.Controllers
         public async Task can_update_user()
         {
             // Get the user
-            var httpResponse = await _client.GetAsync("/api/users/1");
-            httpResponse.EnsureSuccessStatusCode();
-            
-            var getResponse = await httpResponse.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<UserDTO>(getResponse);
-            user.LastName = "Targaryen";
+            var user = new UserDTO()
+            {
+                Id = 2,
+                FirstName = "Daenerys",
+                LastName = "Targaryen",
+                Username = "dstormborn",
+                Email = "queen@weirwood.net"
+            };
 
             // The endpoint or route of the controller action.
-            httpResponse = await _client.PutAsync("/api/users/1", getBodyJson<UserDTO>(user));
+            var httpResponse = await _client.PutAsync("/api/users/2", getBodyJson<UserDTO>(user));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert
             var putResponse = await httpResponse.Content.ReadAsStringAsync();
             var updated = JsonConvert.DeserializeObject<UserDTO>(putResponse);
-            Assert.True(updated.LastName == "Targaryen");
-            Assert.True(updated.Id == 1);
+            Assert.True(updated.Email == "queen@weirwood.net");
+            Assert.True(updated.Id == 2);
         }
 
         [Fact]
