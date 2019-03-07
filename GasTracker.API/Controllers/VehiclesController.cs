@@ -86,3 +86,93 @@ namespace GasTracker.API.Controllers
         }
     }
 }
+
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
+// using AutoMapper;
+// using GasTracker.API.Data.DTO;
+// using GasTracker.API.Data.Models;
+// using GasTracker.API.Services;
+// using Microsoft.AspNetCore.Http;
+// using Microsoft.AspNetCore.Mvc;
+// using Microsoft.Extensions.Logging;
+
+// namespace GasTracker.API.Controllers
+// {
+//     [Route("api/vehicles")]
+//     [ApiController]
+//     public class VehiclesController : ControllerBase
+//     {
+//         private readonly ILogger _log;
+//         private readonly IMapper _mapper;
+//         private readonly IVehicleService _vehicle;
+
+//         public VehiclesController(ILogger<UsersController> log, IMapper mapper, IVehicleService vehicle)
+//         {
+//             _log = log;
+//             _mapper = mapper;
+//             _vehicle = vehicle;
+//         }
+        
+//         // GET api/vehicles
+//         [HttpGet]
+//         [ProducesResponseType(typeof(IEnumerable<VehicleDTO>), StatusCodes.Status200OK)]
+//         public IActionResult Get()
+//         {
+//             var vehicles = _vehicle.Get();
+//             var dtoList = _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleDTO>>(vehicles);
+
+//             return Ok(dtoList);
+//         }
+
+//         // GET api/vehicles/5
+//         [HttpGet("{id}")]
+//         [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+//         public IActionResult Get(int id)
+//         {
+//             var vehicle = _vehicle.Get(id);
+//             var dto = _mapper.Map<Vehicle, VehicleDTO>(vehicle);
+
+//             return Ok(dto);
+//         }
+
+//         // POST api/vehicles
+//         [HttpPost]
+//         [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+//         public IActionResult Post([FromBody] VehicleDTO vehicle)
+//         {
+//             var fromDto = _mapper.Map<VehicleDTO, Vehicle>(vehicle);
+//             var added = _vehicle.Add(fromDto);
+//             var dto = _mapper.Map<Vehicle, VehicleDTO>(added);
+
+//             return Ok(dto);
+//         }
+
+//         // PUT api/vehicles/5
+//         [HttpPut("{id}")]
+//         [ProducesResponseType(typeof(VehicleDTO), StatusCodes.Status200OK)]
+//         public IActionResult Put(int id, [FromBody] VehicleDTO vehicle)
+//         {
+//             var fromDto = _mapper.Map<VehicleDTO, Vehicle>(vehicle);
+//             _vehicle.Update(fromDto);
+            
+//             var updated = _vehicle.Get(id);
+//             var dto = _mapper.Map<Vehicle, VehicleDTO>(updated);
+
+//             return Ok(dto);
+//         }
+
+//         // DELETE api/vehicles/5
+//         [HttpDelete("{id}")]
+//         [ProducesResponseType(StatusCodes.Status200OK)]
+//         public IActionResult Delete(int id)
+//         {
+//             var existing = _vehicle.Get(id);
+//             if (existing != null) _vehicle.Delete(existing);
+
+//             return Ok();
+//         }
+//     }
+// }
+

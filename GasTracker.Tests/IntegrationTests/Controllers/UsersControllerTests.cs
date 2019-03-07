@@ -80,14 +80,16 @@ namespace IntegrationTests.Controllers
         public async Task can_update_user()
         {
             // Get the user
-            var user = new UserDTO()
-            {
-                Id = 2,
-                FirstName = "Daenerys",
-                LastName = "Targaryen",
-                Username = "dstormborn",
-                Email = "queen@weirwood.net"
-            };
+            // var user = new UserDTO()
+            // {
+            //     Id = 2,
+            //     FirstName = "Daenerys",
+            //     LastName = "Targaryen",
+            //     Username = "dstormborn",
+            //     Email = "queen@weirwood.net"
+            // };
+            var user = await getSingleUser(2);
+            user.Email = "queen@weirwood.net";
 
             // The endpoint or route of the controller action.
             var httpResponse = await _client.PutAsync("/api/users/2", getBodyJson<UserDTO>(user));
@@ -104,7 +106,7 @@ namespace IntegrationTests.Controllers
         public async Task can_delete_user()
         {
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.DeleteAsync("/api/users/2");
+            var httpResponse = await _client.DeleteAsync("/api/users/1");
 
             // Must be successful.
             httpResponse.EnsureSuccessStatusCode();

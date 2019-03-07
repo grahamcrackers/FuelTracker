@@ -2,6 +2,7 @@ using AutoMapper;
 using GasTracker.API.Data.Context;
 using GasTracker.API.Data.Models;
 using GasTracker.API.Repositories.DependencyInjection;
+using GasTracker.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,10 @@ namespace GasTracker.API
             var connection = Configuration.GetConnectionString("PostgresConnection");
             services.AddDbContext<TrackerContext>(options => options.UseNpgsql(connection));
             services.AddUnitOfWork<TrackerContext>();
+            // services.AddScoped<IUserService, UserService>();
+            // services.AddScoped<IVehicleService, VehicleService>();
+            // services.AddScoped<ITripService, TripService>();
+
 
             // AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>

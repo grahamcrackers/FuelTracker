@@ -9,6 +9,6 @@ namespace GasTracker.API.Data.DTO {
         public string Username { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        // public ICollection<VehicleDTO> Vehicles { get; set; }
+        public ICollection<VehicleDTO> Vehicles { get; set; }
     }
 }

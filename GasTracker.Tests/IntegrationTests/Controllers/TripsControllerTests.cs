@@ -74,11 +74,11 @@ namespace IntegrationTests.Controllers
         [Fact]
         public async Task can_update_trip()
         {
-            var trip = await getSingleTrip<TripDTO>(1);
+            var trip = await getSingleTrip<TripDTO>(2);
             trip.Odometer = 3000;
 
             // The endpoint or route of the controller action.
-            var httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson<TripDTO>(trip));
+            var httpResponse = await _client.PutAsync("/api/trips/2", getBodyJson<TripDTO>(trip));
             httpResponse.EnsureSuccessStatusCode();
 
             // Assert

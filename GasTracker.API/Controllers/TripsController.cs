@@ -86,3 +86,89 @@ namespace GasTracker.API.Controllers
         }
     }
 }
+
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
+// using AutoMapper;
+// using GasTracker.API.Data.DTO;
+// using GasTracker.API.Data.Models;
+// using GasTracker.API.Services;
+// using Microsoft.AspNetCore.Http;
+// using Microsoft.AspNetCore.Mvc;
+
+// namespace GasTracker.API.Controllers
+// {
+//     [Route("api/trips")]
+//     [ApiController]
+//     public class TripsController : ControllerBase
+//     {
+//         private readonly ITripService _trip;
+//         private readonly IMapper _mapper;
+
+//         public TripsController(ITripService trip, IMapper mapper)
+//         {
+//             _trip = trip;
+//             _mapper = mapper;
+//         }
+
+//         // GET api/trips
+//         [HttpGet]
+//         [ProducesResponseType(typeof(IEnumerable<TripDTO>), StatusCodes.Status200OK)]
+//         public IActionResult Get()
+//         {
+//             var trips = _trip.Get();
+//             var dtoList = _mapper.Map<IEnumerable<Trip>, IEnumerable<TripDTO>>(trips);
+
+//             return Ok(dtoList);
+//         }
+
+//         // GET api/trips/5
+//         [HttpGet("{id}")]
+//         [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
+//         public IActionResult Get(int id)
+//         {
+//             var trip = _trip.Get(id);
+//             var dto = _mapper.Map<Trip, TripDTO>(trip);
+
+//             return Ok(dto);
+//         }
+
+//         // POST api/trips
+//         [HttpPost]
+//         [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
+//         public IActionResult Post([FromBody] TripDTO trip)
+//         {
+//             var fromDto = _mapper.Map<TripDTO, Trip>(trip);
+//             var added = _trip.Add(fromDto);
+//             var dto = _mapper.Map<Trip, TripDTO>(added);
+
+//             return Ok(dto);
+//         }
+
+//         // PUT api/trips/5
+//         [HttpPut("{id}")]
+//         [ProducesResponseType(typeof(TripDTO), StatusCodes.Status200OK)]
+//         public IActionResult Put(int id, [FromBody] TripDTO trip)
+//         {
+//             var fromDto = _mapper.Map<TripDTO, Trip>(trip);
+//             _trip.Update(fromDto);
+            
+//             var updated = _trip.Get(id);
+//             var dto = _mapper.Map<Trip, TripDTO>(updated);
+
+//             return Ok(dto);
+//         }
+
+//         // DELETE api/trips/5
+//         [HttpDelete("{id}")]
+//         [ProducesResponseType(StatusCodes.Status200OK)]
+//         public IActionResult Delete(int id)
+//         {
+//             var existing = _trip.Get(id);
+//             if (existing != null) _trip.Delete(existing);
+
+//             return Ok();
+//         }
+//     }
+// }
