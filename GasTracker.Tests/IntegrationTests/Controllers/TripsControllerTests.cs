@@ -75,7 +75,7 @@ namespace IntegrationTests.Controllers
         public async Task can_update_trip()
         {
             var trip = await getSingleTrip<TripDTO>(1);
-            trip.VehicleId = 2;
+            trip.Odometer = 3000;
 
             // The endpoint or route of the controller action.
             var httpResponse = await _client.PutAsync("/api/trips/1", getBodyJson<TripDTO>(trip));
@@ -84,7 +84,7 @@ namespace IntegrationTests.Controllers
             // Assert
             var putResponse = await httpResponse.Content.ReadAsStringAsync();
             var updated = JsonConvert.DeserializeObject<TripDTO>(putResponse);
-            Assert.True(updated.VehicleId == 2);
+            Assert.True(updated.Odometer == 3000);
         }
 
         [Fact]

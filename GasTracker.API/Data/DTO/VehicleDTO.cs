@@ -9,6 +9,6 @@ namespace GasTracker.API.Data.DTO
         public string Model { get; set; }
         public string Vin { get; set; }
         public int UserId { get; set; }
-        // public ICollection<TripDTO> Trips { get; set; }
+        public ICollection<TripDTO> Trips { get; set; }
     }
 }

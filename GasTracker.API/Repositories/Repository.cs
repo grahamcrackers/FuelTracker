@@ -36,14 +36,19 @@ namespace GasTracker.API.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public IEnumerable<T> Get()
+        public IQueryable<T> Get()
         {
-            return _dbSet.AsEnumerable();
+            return _dbSet;
+                    //.AsNoTracking()
+                    //.AsEnumerable();
         }
 
-        public IEnumerable<T> Get(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> Get(Expression<Func<T, bool>> predicate)
         {
-            return _dbSet.Where(predicate).AsEnumerable();
+            return _dbSet
+                    .Where(predicate);
+                    //.AsNoTracking()
+                    //.AsEnumerable();
         }
 
         public T Update(T entity)

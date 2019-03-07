@@ -26,8 +26,9 @@ namespace IntegrationTests.Utils
                 {
                     options.UseInMemoryDatabase("InMemoryAppDb");
                            // .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                    options.EnableSensitiveDataLogging();
                     options.UseInternalServiceProvider(serviceProvider);
-                }, ServiceLifetime.Transient);
+                });
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();

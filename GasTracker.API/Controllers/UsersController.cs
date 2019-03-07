@@ -73,9 +73,14 @@ namespace GasTracker.API.Controllers
         [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
         public IActionResult Put(int id, [FromBody] UserDTO user)
         {
+            // Make sure it exists
+            var thing = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
+            
             var fromDto = _mapper.Map<UserDTO, User>(user);
-            _log.LogInformation("Update User", fromDto.ToString());
-            var updated = _uow.GetRepository<User>().Update(fromDto);
+            
+            thing = fromDto;
+            // _log.LogInformation("Update User", fromDto.ToString());
+            var updated = _uow.GetRepository<User>().Update(thing);
             _uow.SaveChanges();
 
             var dto = _mapper.Map<User, UserDTO>(updated);

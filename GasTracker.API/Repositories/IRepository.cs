@@ -15,8 +15,8 @@ namespace GasTracker.API.Repositories
         void Delete(T entity);
         void Delete(IEnumerable<T> entities);
 
-        IEnumerable<T> Get();
-        IEnumerable<T> Get(Expression<Func<T, bool>> predicate);
+        IQueryable<T> Get();
+        IQueryable<T> Get(Expression<Func<T, bool>> predicate);
 
         T Update(T entity);
         void Update(IEnumerable<T> entities);

@@ -19,6 +19,6 @@ namespace GasTracker.API.Data.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        public ICollection<Vehicle> Vehicles { get; } = new List<Vehicle>();
+        // public ICollection<Vehicle> Vehicles { get; } = new List<Vehicle>();
     }
 }

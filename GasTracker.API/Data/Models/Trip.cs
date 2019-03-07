@@ -16,6 +16,6 @@ namespace GasTracker.API.Data.Models {
         public decimal MilesPerGallon { get; set; }
         public decimal CostPerMile { get; set; }
         public int VehicleId { get; set; }
-        public Vehicle Vehicle { get; set; }
+        // public Vehicle Vehicle { get; set; }
     }
 }
