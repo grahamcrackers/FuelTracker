@@ -17,14 +17,12 @@ namespace GasTracker.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ILogger _log;
         private readonly IUnitOfWork _uow;
         private readonly IMapper _mapper;
         
 
-        public UsersController(ILogger<UsersController> log, IUnitOfWork uow, IMapper mapper)
+        public UsersController(IUnitOfWork uow, IMapper mapper)
         {
-            _log = log;
             _uow = uow;
             _mapper = mapper;
         }
@@ -35,7 +33,6 @@ namespace GasTracker.API.Controllers
         public IActionResult Get()
         {
             var users = _uow.GetRepository<User>().Get();
-            _log.LogInformation("Get Users", users.ToString());
             var dtoList = _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
 
             return Ok(dtoList);
@@ -47,9 +44,21 @@ namespace GasTracker.API.Controllers
         public IActionResult Get(int id)
         {
             var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
-            _log.LogInformation("Get Users", user.ToString());
             var dto = _mapper.Map<User, UserDTO>(user);
 
+            return Ok(dto);
+        }
+
+        // GET api/users/5
+        [HttpGet("{id}/vehicles")]
+        [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
+        public IActionResult GetUserVehicles(int id)
+        {
+            var user = _uow.GetRepository<User>().Get(x => x.UserId == id).FirstOrDefault();
+            var dto = _mapper.Map<User, UserDTO>(user);
+
+            var userVehicles = _uow.GetRepository<Vehicle>().Get(x => x.UserId == id).AsEnumerable();
+            dto.Vehicles = _mapper.Map<IEnumerable<Vehicle>, ICollection<VehicleDTO>>(userVehicles);
             return Ok(dto);
         }
 
@@ -59,7 +68,6 @@ namespace GasTracker.API.Controllers
         public IActionResult Post([FromBody] UserDTO user)
         {
             var fromDto = _mapper.Map<UserDTO, User>(user);
-            _log.LogInformation("Add User", fromDto.ToString());
             var added = _uow.GetRepository<User>().Add(fromDto);
             _uow.SaveChanges();
 

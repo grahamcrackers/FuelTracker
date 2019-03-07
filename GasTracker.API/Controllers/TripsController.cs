@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace GasTracker.API.Controllers
         }
 
         // GET api/trips
+        [Obsolete]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<TripDTO>), StatusCodes.Status200OK)]
         public IActionResult Get()
