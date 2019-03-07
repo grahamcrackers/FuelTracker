@@ -31,3 +31,4 @@ sqlite3 gastracker.db < seed.sql
 
 - https://garywoodfine.com/generic-repository-pattern-net-core/
 - https://fullstackmark.com/post/20/painless-integration-testing-with-aspnet-core-web-api
+- https://stackoverflow.com/questions/41482484/ef-automapper-update-nested-collections
